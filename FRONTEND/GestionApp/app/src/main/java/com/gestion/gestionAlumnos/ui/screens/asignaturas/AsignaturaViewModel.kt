@@ -1,20 +1,20 @@
-package com.gestion.gestionAlumnos.ui.screens.calificaciones
+package com.gestion.gestionAlumnos.ui.screens.asignaturas
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gestion.gestionAlumnos.core.utils.SessionManager
-import com.gestion.gestionAlumnos.data.model.Calificacion
-import com.gestion.gestionAlumnos.data.repository.CalificacionRepository
+import com.gestion.gestionAlumnos.data.model.Asignatura
+import com.gestion.gestionAlumnos.data.repository.AsignaturaRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class CalificacionViewModel : ViewModel() {
+class AsignaturaViewModel : ViewModel() {
 
-    private val repository = CalificacionRepository()
+    private val repository = AsignaturaRepository()
 
-    private val _calificaciones = MutableStateFlow<List<Calificacion>>(emptyList())
-    val calificaciones: StateFlow<List<Calificacion>> = _calificaciones
+    private val _asignaturas = MutableStateFlow<List<Asignatura>>(emptyList())
+    val asignaturas: StateFlow<List<Asignatura>> = _asignaturas
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
@@ -22,7 +22,7 @@ class CalificacionViewModel : ViewModel() {
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> = _loading
 
-    fun cargarCalificaciones(sessionManager: SessionManager) {
+    fun cargarAsignaturas(sessionManager: SessionManager) {
         viewModelScope.launch {
             _loading.value = true
             _error.value = null
@@ -34,12 +34,12 @@ class CalificacionViewModel : ViewModel() {
                 return@launch
             }
 
-            val result = repository.getCalificaciones(token)
+            val result = repository.getAsignaturas(token)
             result.onSuccess {
-                _calificaciones.value = it
+                _asignaturas.value = it
                 _error.value = null
             }.onFailure {
-                _error.value = it.message
+                _error.value = it.message ?: "Error al cargar asignaturas"
             }
 
             _loading.value = false

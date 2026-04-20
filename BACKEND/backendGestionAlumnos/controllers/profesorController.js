@@ -29,5 +29,5 @@ exports.getProfesorById = (req, res) => {
         }
 
         res.json(results[0]);
-    })
-}
+    });
+};

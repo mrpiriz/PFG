@@ -34,6 +34,11 @@ class SessionManager(private val context: Context) {
         return prefs[ROL_KEY]
     }
 
+    suspend fun getEmail(): String? {
+        val prefs = context.dataStore.data.first()
+        return prefs[EMAIL_KEY]
+    }
+
     suspend fun clearSession() {
         context.dataStore.edit { prefs ->
             prefs.clear()

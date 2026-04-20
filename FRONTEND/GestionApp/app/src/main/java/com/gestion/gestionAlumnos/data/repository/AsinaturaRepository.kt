@@ -1,13 +1,13 @@
 package com.gestion.gestionAlumnos.data.repository
 
 import com.gestion.gestionAlumnos.core.network.RetrofitClient
-import com.gestion.gestionAlumnos.data.model.Profesor
+import com.gestion.gestionAlumnos.data.model.Asignatura
 
-class ProfesorRepository {
+class AsignaturaRepository {
 
-    suspend fun getProfesores(token: String): Result<List<Profesor>> {
+    suspend fun getAsignaturas(token: String): Result<List<Asignatura>> {
         return try {
-            val response = RetrofitClient.apiService.getProfesores("Bearer $token")
+            val response = RetrofitClient.apiService.getAsignaturas("Bearer $token")
             val body = response.body()
 
             if (response.isSuccessful && body != null) {

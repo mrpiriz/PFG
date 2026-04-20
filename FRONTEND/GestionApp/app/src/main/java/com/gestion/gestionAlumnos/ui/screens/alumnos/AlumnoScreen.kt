@@ -13,13 +13,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gestion.gestionAlumnos.core.utils.SessionManager
-import com.gestion.gestionAlumnos.ui.screens.login.LoginScreen
-
+import com.gestion.gestionAlumnos.data.model.Alumno
 
 @Composable
 fun AlumnoScreen(
@@ -33,6 +31,14 @@ fun AlumnoScreen(
         viewModel.cargarAlumnos(sessionManager)
     }
 
+    AlumnoContent(alumnos = alumnos, error = error)
+}
+
+@Composable
+fun AlumnoContent(
+    alumnos: List<Alumno>,
+    error: String?
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,11 +63,20 @@ fun AlumnoScreen(
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
-fun LoginPreview() {
-    LoginScreen(
-        sessionManager = SessionManager(LocalContext.current),
-        onLoginSuccess = {}
+fun AlumnoScreenPreview() {
+    AlumnoContent(
+        alumnos = listOf(
+            Alumno(
+                id_alumno = 1,
+                nombre = "Ana",
+                apellidos = "García López",
+                dni = "12345678A",
+                fecha_nacimiento = "2005-03-12"
+            )
+        ),
+        error = null
     )
 }

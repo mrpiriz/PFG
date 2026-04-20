@@ -16,11 +16,11 @@ const authMiddleware = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verufy(token, ProcessingInstruction.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
         next();
     } catch (error) {
         return res.status(403).json({ message: "Token no válido"});
     }
 };
-MediaSourceHandle.exports = authMiddleware;
+module.exports = authMiddleware;

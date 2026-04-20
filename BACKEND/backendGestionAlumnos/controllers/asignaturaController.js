@@ -7,7 +7,7 @@ exports.getAsignaturas = (req, res) => {
 
     db.query(sql, (err, results) => {
         if(err) {
-            return res.status(500).json({message: "Error al obtener profesores", error:err});
+            return res.status(500).json({message: "Error al obtener asignaturas", error:err});
         }
         res.json(results);
     })
@@ -29,5 +29,5 @@ exports.getAsignaturaById = (req, res) => {
         }
 
         res.json(results[0]);
-    })
-}
+    });
+};

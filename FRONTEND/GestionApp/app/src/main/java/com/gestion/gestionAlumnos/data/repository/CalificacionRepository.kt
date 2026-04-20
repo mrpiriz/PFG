@@ -8,10 +8,13 @@ class CalificacionRepository {
     suspend fun getCalificaciones(token: String): Result<List<Calificacion>> {
         return try {
             val response = RetrofitClient.apiService.getCalificaciones("Bearer $token")
-            if (response.isSuccessful && response.body() != null) {
-                Result.success(response.body()!!)
+            val body = response.body()
+
+            if (response.isSuccessful && body != null) {
+                Result.success(body)
             } else {
-                Result.failure(Exception("Error al cargar calificaciones"))
+                val errorMsg = response.errorBody()?.string() ?: "Error desconocido"
+                Result.failure(Exception("Error ${response.code()}: $errorMsg"))
             }
         } catch (e: Exception) {
             Result.failure(e)

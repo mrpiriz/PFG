@@ -19,20 +19,30 @@ class ProfesorViewModel : ViewModel() {
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
 
+    private val _loading = MutableStateFlow(false)
+    val loading: StateFlow<Boolean> = _loading
+
     fun cargarProfesores(sessionManager: SessionManager) {
         viewModelScope.launch {
+            _loading.value = true
+            _error.value = null
+
             val token = sessionManager.getToken()
             if (token == null) {
                 _error.value = "No hay sesión"
+                _loading.value = false
                 return@launch
             }
 
             val result = repository.getProfesores(token)
             result.onSuccess {
                 _profesores.value = it
+                _error.value = null
             }.onFailure {
                 _error.value = it.message
             }
+
+            _loading.value = false
         }
     }
 }

@@ -17,16 +17,25 @@ class LoginViewModel : ViewModel() {
 
     fun login(email: String, password: String, sessionManager: SessionManager) {
         viewModelScope.launch {
+            if (email.isBlank() || password.isBlank()) {
+                _uiState.value = LoginUiState.Error("Email y contraseña son obligatorios")
+                return@launch
+            }
+
             _uiState.value = LoginUiState.Loading
 
             val result = repository.login(email, password)
             result.onSuccess { response ->
-                sessionManager.saveSession(
-                    token = response.token,
-                    rol = response.usuario.rol,
-                    email = response.usuario.email
-                )
-                _uiState.value = LoginUiState.Success
+                try {
+                    sessionManager.saveSession(
+                        token = response.token,
+                        rol = response.usuario.rol,
+                        email = response.usuario.email
+                    )
+                    _uiState.value = LoginUiState.Success
+                } catch (e: Exception) {
+                    _uiState.value = LoginUiState.Error("No se pudo guardar la sesión")
+                }
             }.onFailure {
                 _uiState.value = LoginUiState.Error(it.message ?: "Error desconocido")
             }

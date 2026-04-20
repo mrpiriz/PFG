@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -12,8 +13,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gestion.gestionAlumnos.core.utils.SessionManager
@@ -58,6 +59,8 @@ fun LoginScreen(
             value = password,
             onValueChange = { password = it },
             label = { Text("Contraseña") },
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 12.dp)
@@ -67,6 +70,7 @@ fun LoginScreen(
             onClick = {
                 viewModel.login(email, password, sessionManager)
             },
+            enabled = email.isNotBlank() && password.isNotBlank() && state !is LoginUiState.Loading,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp)
@@ -87,15 +91,5 @@ fun LoginScreen(
             }
             else -> Unit
         }
-
     }
-
-}
-@Preview(showBackground = true)
-@Composable
-fun LoginPreview() {
-    LoginScreen(
-        sessionManager = SessionManager(LocalContext.current),
-        onLoginSuccess = {}
-    )
 }

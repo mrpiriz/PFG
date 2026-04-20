@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 fun HomeScreen(
     onAlumnosClick: () -> Unit,
     onProfesoresClick: () -> Unit,
+    onAsignaturasClick: () -> Unit,
     onCalificacionesClick: () -> Unit,
     onLogout: () -> Unit
 ) {
@@ -42,6 +43,15 @@ fun HomeScreen(
                 .padding(top = 12.dp)
         ) {
             Text("Profesores")
+        }
+
+        Button(
+            onClick = onAsignaturasClick,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp)
+        ) {
+            Text("Asignaturas")
         }
 
         Button(

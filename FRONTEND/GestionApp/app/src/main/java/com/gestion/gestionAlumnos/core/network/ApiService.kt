@@ -1,6 +1,7 @@
 package com.gestion.gestionAlumnos.core.network
 
 import com.gestion.gestionAlumnos.data.model.Alumno
+import com.gestion.gestionAlumnos.data.model.Asignatura
 import com.gestion.gestionAlumnos.data.model.Calificacion
 import com.gestion.gestionAlumnos.data.model.LoginRequest
 import com.gestion.gestionAlumnos.data.model.LoginResponse
@@ -27,6 +28,11 @@ interface ApiService {
     suspend fun getProfesores(
         @Header("Authorization") token: String
     ): Response<List<Profesor>>
+
+    @GET("asignaturas")
+    suspend fun getAsignaturas(
+        @Header("Authorization") token: String
+    ): Response<List<Asignatura>>
 
     @GET("calificaciones")
     suspend fun getCalificaciones(

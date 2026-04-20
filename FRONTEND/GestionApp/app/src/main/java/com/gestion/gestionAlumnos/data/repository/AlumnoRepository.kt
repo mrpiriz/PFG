@@ -8,10 +8,13 @@ class AlumnoRepository {
     suspend fun getAlumnos(token: String): Result<List<Alumno>> {
         return try {
             val response = RetrofitClient.apiService.getAlumnos("Bearer $token")
-            if (response.isSuccessful && response.body() != null) {
-                Result.success(response.body()!!)
+            val body = response.body()
+
+            if (response.isSuccessful && body != null) {
+                Result.success(body)
             } else {
-                Result.failure(Exception("Error al cargar alumnos"))
+                val errorMsg = response.errorBody()?.string() ?: "Error desconocido"
+                Result.failure(Exception("Error ${response.code()}: $errorMsg"))
             }
         } catch (e: Exception) {
             Result.failure(e)

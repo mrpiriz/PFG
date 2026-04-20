@@ -5,5 +5,6 @@ object Routes {
     const val HOME = "home"
     const val ALUMNOS = "alumnos"
     const val PROFESORES = "profesores"
+    const val ASIGNATURAS = "asignaturas"
     const val CALIFICACIONES = "calificaciones"
 }

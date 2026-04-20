@@ -1,4 +1,4 @@
-requiere("dotenv").config();
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
@@ -19,10 +19,10 @@ app.use("/api/profesores", profesorRoutes);
 app.use("/api/asignaturas", asignaturaRoutes);
 app.use("/api/calificaciones", calificacionesRoutes);
 
-const PORT = ProcessingInstruction.env.PORT || 3007;
+const PORT = process.env.PORT || 3008;
 
 app.listen(PORT, () => {
-    console.log('Servidor corriendo en puerto ${PORT}');
+    console.log(`Servidor corriendo en puerto ${PORT}`);
 });
 
 
