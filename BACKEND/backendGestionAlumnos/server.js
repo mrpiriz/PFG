@@ -19,7 +19,7 @@ app.use("/api/profesores", profesorRoutes);
 app.use("/api/asignaturas", asignaturaRoutes);
 app.use("/api/calificaciones", calificacionesRoutes);
 
-const PORT = process.env.PORT || 3008;
+const PORT = process.env.PORT || 3007;
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en puerto ${PORT}`);

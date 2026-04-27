@@ -4,6 +4,5 @@ const calificacionesController = require("../controllers/calificacionesControlle
 const authMiddleware = require("../middleware/authMiddleware");
 
 router.get("/", authMiddleware, calificacionesController.getCalificaciones);
-router.get("/:id", authMiddleware, calificacionesController.getCalificacionesById);
-
+router.get("/:id", authMiddleware, calificacionesController.getCalificacionById);
 module.exports = router;
