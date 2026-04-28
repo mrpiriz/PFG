@@ -1,5 +1,8 @@
 $kind: http-request
 name: Obtener usuarios
-url: ""
+url: http://localhost:3008/api/auth/usuario
 method: GET
+body:
+  type: json
+  content: "{}"
 order: 1777097450806

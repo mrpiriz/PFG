@@ -30,18 +30,20 @@ exports.getAlumnoById = (req, res) => {
 };
 
 exports.createAlumno = (req, res) => {
-    const { nombre, apellidos, email } = req.body;
+    const { id_usuario, nombre, apellidos, dni, fecha_nacimiento } = req.body;
 
-    if (!nombre || !apellidos || !email) {
-        return res.status(400).json({ message: "Nombre, apellidos y email son obligatorios" });
+    if (!id_usuario || !nombre || !apellidos || !dni || !fecha_nacimiento) {
+        return res.status(400).json({
+            message: "id_usuario, nombre, apellidos, dni y fecha_nacimiento son obligatorios"
+        });
     }
 
     const sql = `
-        INSERT INTO alumno (nombre, apellidos, email)
-        VALUES (?, ?, ?)
+        INSERT INTO alumno (id_usuario, nombre, apellidos, dni, fecha_nacimiento)
+        VALUES (?, ?, ?, ?, ?)
     `;
 
-    db.query(sql, [nombre, apellidos, email], (err, result) => {
+    db.query(sql, [id_usuario, nombre, apellidos, dni, fecha_nacimiento], (err, result) => {
         if (err) {
             return res.status(500).json({
                 message: "Error al crear alumno",
@@ -58,19 +60,21 @@ exports.createAlumno = (req, res) => {
 
 exports.updateAlumno = (req, res) => {
     const { id } = req.params;
-    const { nombre, apellidos, email } = req.body;
+    const { id_usuario, nombre, apellidos, dni, fecha_nacimiento } = req.body;
 
-    if (!nombre || !apellidos || !email) {
-        return res.status(400).json({ message: "Nombre, apellidos y email son obligatorios" });
+    if (!id_usuario || !nombre || !apellidos || !dni || !fecha_nacimiento) {
+        return res.status(400).json({
+            message: "id_usuario, nombre, apellidos, dni y fecha_nacimiento son obligatorios"
+        });
     }
 
     const sql = `
         UPDATE alumno
-        SET nombre = ?, apellidos = ?, email = ?
+        SET id_usuario = ?, nombre = ?, apellidos = ?, dni = ?, fecha_nacimiento = ?
         WHERE id_alumno = ?
     `;
 
-    db.query(sql, [nombre, apellidos, email, id], (err, result) => {
+    db.query(sql, [id_usuario, nombre, apellidos, dni, fecha_nacimiento, id], (err, result) => {
         if (err) {
             return res.status(500).json({
                 message: "Error al actualizar alumno",
