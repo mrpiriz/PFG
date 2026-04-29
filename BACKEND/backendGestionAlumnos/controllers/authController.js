@@ -49,7 +49,7 @@ exports.login = (req, res) => {
                 id_usuario: usuario.id_usuario,
                 email: usuario.email,
                 rol: usuario.rol,
-                activo: usuario.activo
+                activo: usuario.activo === 1
             }
         });
     });
