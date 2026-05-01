@@ -1,6 +1,7 @@
 package com.gestion.gestionAlumnos.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 fun AppNavigation() {
     val navController = rememberNavController()
     val context = LocalContext.current
-    val sessionManager = SessionManager(context.applicationContext)
+    val sessionManager = remember {SessionManager(context.applicationContext)}
     val scope = rememberCoroutineScope()
 
     NavHost(

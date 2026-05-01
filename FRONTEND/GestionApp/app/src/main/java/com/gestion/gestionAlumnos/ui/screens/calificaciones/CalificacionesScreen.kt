@@ -1,11 +1,14 @@
 package com.gestion.gestionAlumnos.ui.screens.calificaciones
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,9 +16,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gestion.gestionAlumnos.core.utils.SessionManager
+import com.gestion.gestionAlumnos.data.model.Calificacion
+import com.gestion.gestionAlumnos.ui.theme.GestionAlumnosTheme
 
 @Composable
 fun CalificacionScreen(
@@ -29,30 +35,108 @@ fun CalificacionScreen(
         viewModel.cargarCalificaciones(sessionManager)
     }
 
+    CalificacionContent(
+        calificaciones = calificaciones,
+        error = error
+    )
+}
+
+@Composable
+fun CalificacionContent(
+    calificaciones: List<Calificacion>,
+    error: String?
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
     ) {
-        Text("Listado de calificaciones", style = MaterialTheme.typography.headlineSmall)
+        Text(
+            text = "Listado de calificaciones",
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.primary
+        )
 
         error?.let {
-            Text(it, color = MaterialTheme.colorScheme.error)
+            Text(
+                text = it,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(top = 8.dp)
+            )
         }
 
         LazyColumn(modifier = Modifier.padding(top = 12.dp)) {
             items(calificaciones) { calificacion ->
-                Card(modifier = Modifier.padding(vertical = 6.dp)) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 6.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                ) {
                     Column(modifier = Modifier.padding(12.dp)) {
-                        Text("Alumno: ${calificacion.alumno_nombre} ${calificacion.alumno_apellidos}")
-                        Text("Profesor: ${calificacion.profesor_nombre} ${calificacion.profesor_apellidos}")
-                        Text("Asignatura: ${calificacion.asignatura_nombre}")
-                        Text("Nota: ${calificacion.nota}")
-                        Text("Fecha: ${calificacion.fecha}")
-                        Text("Observación: ${calificacion.observacion ?: "-"}")
+                        Text(
+                            text = "Alumno: ${calificacion.alumno_nombre} ${calificacion.alumno_apellidos}",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+
+                        Text(
+                            text = "Profesor: ${calificacion.profesor_nombre} ${calificacion.profesor_apellidos}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+
+                        Text(
+                            text = "Asignatura: ${calificacion.asignatura_nombre}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+
+                        Text(
+                            text = "Nota: ${calificacion.nota}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+
+                        Text(
+                            text = "Fecha: ${calificacion.fecha}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+
+                        Text(
+                            text = "Observación: ${calificacion.observacion ?: "-"}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                     }
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CalificacionScreenPreview() {
+    GestionAlumnosTheme {
+        CalificacionContent(
+            calificaciones = listOf(
+                Calificacion(
+                    id_calificacion = 1,
+                    id_alumno = 1,
+                    id_profesor = 1,
+                    id_asignatura = 1,
+                    alumno_nombre = "Ana",
+                    alumno_apellidos = "García López",
+                    profesor_nombre = "Carlos",
+                    profesor_apellidos = "Martínez Ruiz",
+                    asignatura_nombre = "Programación",
+                    nota = 8.5,
+                    fecha = "2026-05-01",
+                    observacion = "Buen trabajo"
+                )
+            ),
+            error = null
+        )
     }
 }
